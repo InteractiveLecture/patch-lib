@@ -1,0 +1,42 @@
+group 'org.lecture'
+version '1.0.0-RELEASE'
+
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
+    }
+}
+
+
+
+
+apply plugin: 'com.bmuschko.nexus'
+apply plugin: 'maven'
+apply plugin: "java"
+
+compileJava {
+    options.encoding = "UTF-8"
+}
+
+javadoc {
+    options.encoding = "UTF-8"
+}
+
+sourceCompatibility = 1.8
+
+extraArchive {
+    sources = true
+    tests = true
+    javadoc = true
+}
+
+nexus {
+    sign = false
+    repositoryUrl = 'https://nexus.rene-richter.de/content/repositories/releases/'
+    snapshotRepositoryUrl = 'https://nexus.rene-richter.de/content/repositories/snapshots/'
+}
