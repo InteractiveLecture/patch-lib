@@ -1,4 +1,4 @@
-package org.lecture.patchservice;
+package org.lecture.patchservice.dmp;
 /*
  * Diff Match and Patch
  *

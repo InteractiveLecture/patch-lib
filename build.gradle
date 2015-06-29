@@ -1,5 +1,5 @@
 group 'org.lecture'
-version '1.0.0-RELEASE'
+version '1.1.0-SNAPSHOT'
 
 
 buildscript {
@@ -36,7 +36,7 @@ extraArchive {
 }
 
 nexus {
-    sign = false
+    sign = true
     repositoryUrl = 'https://nexus.rene-richter.de/content/repositories/releases/'
     snapshotRepositoryUrl = 'https://nexus.rene-richter.de/content/repositories/snapshots/'
 }

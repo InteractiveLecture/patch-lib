@@ -1,4 +1,4 @@
-package org.lecture.patchservice;
+package org.lecture.patchservice.dmp;
 
 /*
  * Copyright (c) 2015 Rene Richter
@@ -15,11 +15,28 @@ package org.lecture.patchservice;
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
  */
 
-/**
- * Created by rene on 29.06.15.
- */
-public interface PatchService {
-  String createPatch(String original, String modified);
+import org.lecture.patchservice.PatchService;
 
-  String applyPatch(String source, String patch);
+import java.util.LinkedList;
+
+/**
+ * Created by rene on 19.06.15.
+ */
+public class DmpPatchService implements PatchService {
+
+  @Override
+  public String createPatch(String original, String modified) {
+    diff_match_patch dmp = new diff_match_patch();
+    LinkedList<diff_match_patch.Patch> patches = dmp.patch_make(original,modified);
+    return dmp.patch_toText(patches);
+  }
+
+
+  @Override
+  public String applyPatch(String source, String patch) {
+    diff_match_patch dmp = new diff_match_patch();
+    LinkedList<diff_match_patch.Patch> patches =
+        (LinkedList<diff_match_patch.Patch>) dmp.patch_fromText(patch);
+    return (String) dmp.patch_apply(patches, source)[0];
+  }
 }
