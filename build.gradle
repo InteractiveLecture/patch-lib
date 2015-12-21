@@ -1,42 +1,38 @@
-group 'org.lecture'
-version '1.1.0-SNAPSHOT'
-
-
-buildscript {
-    repositories {
-        mavenCentral()
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
-    }
+// Apply the java plugin to add support for Java
+plugins {
+  id "com.jfrog.bintray" version "1.4"
 }
 
-
-
-
-apply plugin: 'com.bmuschko.nexus'
+apply plugin: 'java'
 apply plugin: 'maven'
-apply plugin: "java"
-
-compileJava {
-    options.encoding = "UTF-8"
+apply plugin: 'maven-publish'
+bintray {
+  user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
+    key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
+    pkg {
+      repo = 'java'
+        name = 'patch-lib'
+        userOrg = 'interactivelecture'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/InteractiveLecture/patch-lib.git'
+        version {
+          name = '1.0.0'
+        }
+    }
+  publications = ['MyPublication'] 
 }
 
-javadoc {
-    options.encoding = "UTF-8"
+publishing {
+  publications {
+    MyPublication(MavenPublication) {
+      from components.java
+        groupId 'org.interactivelecture.java'
+        artifactId 'patch-lib'
+        version '1.0.0'
+    }
+  }
 }
 
-sourceCompatibility = 1.8
-
-extraArchive {
-    sources = true
-    tests = true
-    javadoc = true
-}
-
-nexus {
-    sign = true
-    repositoryUrl = 'https://nexus.rene-richter.de/content/repositories/releases/'
-    snapshotRepositoryUrl = 'https://nexus.rene-richter.de/content/repositories/snapshots/'
+repositories {
+  jcenter()
 }
